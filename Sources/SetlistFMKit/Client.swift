@@ -1,17 +1,25 @@
 
 import Foundation
+import os.log
+import OSLog
 
 protocol Client {
     func makeRequest(for url: URL) -> URLRequest
     var session: URLSession {get}
     var baseURL: String {get}
+    var networkLogger: Logger { get }
 
 }
 extension Client {
     
+    var logger: Logger {
+        Logger(subsystem: "com.example.MyApp", category: "Networking")
+    }
+    
     func fetch<T:Decodable>(endpoint: String) async throws -> T {
         guard let url = URL(string: baseURL + endpoint) else {
-            print("Endpoint \(endpoint) couldn't cast to URL")
+            logger.error("Endpoint \(endpoint) couldn't cast to URL")
+//            print("Endpoint \(endpoint) couldn't cast to URL")
             throw ClientError.endpoint(baseURL+endpoint)
         }
         return try await request(url: url)
@@ -30,9 +38,18 @@ extension Client {
         
         let endpoint = baseURL + endpoint
         guard var components = URLComponents(string: endpoint) else {
+            logger.error("URL Components \(endpoint) couldn't cast to URL")
             throw ClientError.endpoint(endpoint)
         }
-        let queryParameters = try QueryEncoder().encode(object)
+        
+        let queryParameters: [URLQueryItem]
+        do {
+            queryParameters = try QueryEncoder().encode(object)
+        } catch {
+            logger.error("QueryEncoder couldn't encode parameters for \(String(describing: T.self))")
+            throw error
+
+        }
         
         components.queryItems = queryParameters
             .filter { $0.value != "" }
@@ -42,39 +59,42 @@ extension Client {
         if let url = components.url {
             return url
         } else {
+            logger.error("URL Components \(endpoint) couldn't cast to URL")
             throw ClientError.endpoint(endpoint)
         }
         
     }
 
     private func request<T: Decodable>(url: URL) async throws -> T {
-        print("Requesting \(url.absoluteString)")
-        
-        let request = makeRequest(for: url)
+        logger.debug("Requesting \(url.absoluteString)")
 
+        let request = makeRequest(for: url)
         
         let (data, response) = try await session.data(for: request)
         
         guard let requestResponse = response as? HTTPURLResponse,
               (200 ..< 300) ~= requestResponse.statusCode else {
-            printJSON(data)
             let statusCode = (response as? HTTPURLResponse)?.statusCode
-            print(response)
+            logger.error("Status Code: \(statusCode ?? -1) for \(url.absoluteString)")
+            Swift.print( jsonString(data) )
             throw ClientError.statusCode(statusCode ?? -1, url.absoluteString)
         }
-        
+        logger.debug("Received Response for \(String(describing: T.self))")
+
         do {
             return try JSONDecoder().decode(T.self, from: data)
         } catch {
+            logger.error("Decode error for \(String(describing: T.self))")
+            Swift.print( jsonString(data) )
             throw ClientError.decode(T.self)
         }
     }
     
-    func printJSON(_ data: Data) {
+    private func jsonString(_ data: Data) -> NSString {
         if let nsString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) {
-            Swift.print(nsString)
+            return nsString
         } else {
-            print("Data doesn't represent a valid JSON structure.")
+            return "Data doesn't represent a valid JSON structure."
         }
     }
 }

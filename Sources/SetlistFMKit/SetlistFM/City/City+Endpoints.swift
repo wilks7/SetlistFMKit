@@ -14,6 +14,8 @@ public extension SetlistFMClient {
     /// - Returns: An `FMCity` instance representing the details of the city associated with the provided GeoId.
 
     func getCity(geoId: String) async throws -> FMCity {
+        logger.debug("Fetching City")
+
         let endpoint = "city/" + geoId
         return try await self.fetch(endpoint: endpoint)
     }

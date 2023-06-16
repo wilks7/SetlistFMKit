@@ -14,6 +14,7 @@ public extension MusicBrainzClient {
     /// - Parameter mbid: A Musicbrainz MBID, e.g. 0bfba3d3-6a04-4779-bb0a-df07df5b0558
     /// - Returns: A `MBArtist` instance representing the artist associated with the provided MBID.
     func getArtist(mbid: String) async throws -> MBArtist {
+        logger.debug("Fetching Artist")
         let endpoint = "artist/\(mbid)?inc=aliases"
         return try await self.fetch(endpoint: endpoint)
     }
@@ -65,6 +66,7 @@ public extension MusicBrainzClient {
         tag: String? = nil,
         type: String? = nil
     ) async throws -> [MBArtist] {
+        logger.debug("Searching Artists")
         guard let artist else {throw ClientError.message("Bad Parameters")}
         let escapedString = artist.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? artist
         let endpoint = "artist?query=artist:\(escapedString)&fmt=json"

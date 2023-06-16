@@ -45,6 +45,8 @@ public extension SetlistFMClient {
                         venueName: String? = nil,
                         year: String? = nil
     ) async throws -> FMSetlistsResult {
+        logger.debug("Searching for Setlist")
+
         let endpoint = "search/setlists"
         let requestModel = SearchSetlists(
             artistMbid: artistMbid ?? "",

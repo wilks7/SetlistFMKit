@@ -27,6 +27,8 @@ public extension SetlistFMClient {
                       pageNumber: Int = 1,
                       state: String? = nil,
                       stateCode: String? = nil) async throws -> VenueResults {
+        logger.debug("Searching for Venue")
+
         let endpoint = "search/venues"
         let requestModel = SearchVenue(
             cityId: cityId ?? "",

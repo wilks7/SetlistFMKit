@@ -23,6 +23,8 @@ public extension SetlistFMClient {
                        pageNumber: Int = 1,
                        sortedBy sortType: SortType = .relevance
     ) async throws -> ArtistResults {
+        logger.debug("Searching for Artist's Setlist")
+        
         let endpoint = "search/artists"
         
         let requestModel = SearchArtist(

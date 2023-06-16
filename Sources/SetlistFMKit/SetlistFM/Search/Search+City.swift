@@ -23,6 +23,8 @@ public extension SetlistFMClient {
                       pageNumber: Int = 1,
                       state: String? = nil,
                       stateCode: String? = nil) async throws -> CitiesResults {
+        logger.debug("Searching for City")
+
         let endpoint = "search/cities"
         let requestModel = SearchCities(
             country: country ?? "",

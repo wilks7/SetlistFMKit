@@ -15,6 +15,7 @@ public extension SetlistFMClient {
     /// - Parameter mbid: A Musicbrainz MBID, e.g. 0bfba3d3-6a04-4779-bb0a-df07df5b0558
     /// - Returns: A `FMArtist` instance representing the artist associated with the provided MBID.
     func getArtist(mbid: String) async throws -> FMArtist {
+        logger.debug("Fetching Artist")
         let endpoint = kEndpoint + mbid
         return try await self.fetch(endpoint: endpoint)
     }
@@ -25,6 +26,7 @@ public extension SetlistFMClient {
     /// - Parameter pageNumber: The number of the result page. Default value is 1.
     /// - Returns: A `FMSetlistsResult` instance, which encapsulates the setlists associated with the provided artist's MBID.
     func getArtistSetlists(mbid: String, pageNumber: Int = 1) async throws -> FMSetlistsResult {
+        logger.debug("Fetching Artist's Setlists")
         let endpoint = "\(kEndpoint)\(mbid)/setlists?p=\(pageNumber)"
         return try await self.fetch(endpoint: endpoint)
     }

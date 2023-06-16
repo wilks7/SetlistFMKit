@@ -8,7 +8,7 @@ final class SetlistFMTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        client = .init(apiKey: "YAuLpSRz4LjQmUgE7lst6ZTkS028LwOelLS9")
+        client = .init(apiKey: "YAuLpSRz4LjQmUgE7lst6ZTkS028LwOelLS9", appName: "TestApp", orginization: "testOrg")
     }
     
     override func tearDown() {

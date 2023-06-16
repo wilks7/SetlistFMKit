@@ -6,6 +6,7 @@ A client to handle network communications with the MusicBrainz API.
 */
 
 import Foundation
+import OSLog
 
 /// This class prepares and sends requests to the MusicBrainz API, and handles responses.
 public class MusicBrainzClient: Client {
@@ -24,6 +25,12 @@ public class MusicBrainzClient: Client {
     
     /// The contact information to be used in requests' User-Agent header.
     public let contact: String
+    
+    /// The Logger used by Client protocol to log networking.
+    public let networkLogger: Logger
+    
+    /// The logger used by MusicBrainz to log results.
+    public let logger: Logger
 
     /// Creates a new `MusicBrainzClient`.
     ///
@@ -35,6 +42,25 @@ public class MusicBrainzClient: Client {
         self.appName = appName
         self.version = version
         self.contact = contact
+        self.networkLogger = Logger(subsystem: "app.\(appName)", category: "Networking")
+        self.logger = Logger(subsystem: "app.\(appName)", category: "MusicBrainz")
+
+    }
+    
+    /// Creates a new `MusicBrainzClient`.
+    ///
+    /// - Parameters:
+    ///   - appName: The application name to be used in requests' User-Agent header.
+    ///   - version: The application version to be used in requests' User-Agent header.
+    ///   - orginization: The orginization identifier to be used in creating contact info and logger.
+    public init(appName: String, version: String, orginization: String) {
+        self.appName = appName
+        self.version = version
+        self.contact = "dev@\(orginization).app"
+        self.networkLogger = Logger(subsystem: "app.\(orginization).\(appName)", category: "Networking")
+        self.logger = Logger(subsystem: "app.\(orginization).\(appName)", category: "MusicBrainz")
+
+
     }
 
     /// Prepares a new `URLRequest` for a given URL.

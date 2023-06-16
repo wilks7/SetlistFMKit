@@ -20,12 +20,20 @@ public class SetlistFMClient: Client {
 
     /// The language to request data in. Default is English.
     private let language: SupportedLanguage = .english
+    
+    /// The logger used by Client protocol to log networking.
+    public let networkLogger: Logger
+    
+    /// The logger used by SetlistFM to log results.
+    public let logger: Logger
 
     /// Creates a new `SetlistFMClient`.
     ///
     /// - Parameter apiKey: The API key to use for authentication.
-    public init(apiKey: String) {
+    public init(apiKey: String, appName: String, orginization: String) {
         self.apiKey = apiKey
+        self.networkLogger = Logger(subsystem: "app.\(orginization).\(appName)", category: "Networking")
+        self.logger = Logger(subsystem: "app.\(orginization).\(appName)", category: "SetlistFM")
     }
 
     /// Prepares a new `URLRequest` for a given URL.
