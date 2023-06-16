@@ -1,15 +1,25 @@
 
+/*
+See the LICENSE.txt file for this sample’s licensing information.
+
+Abstract:
+Search Venues Endpoints for the SetlistFM API.
+*/
+
 public extension SetlistFMClient {
     
-    /// Search for venues.
-    /// - Parameter cityId: The city's geoId
-    /// - Parameter cityName: Name of the city where the venue is located
-    /// - Parameter country: The city's country
-    /// - Parameter name: Name of the venue
-    /// - Parameter pageNumber: The number of the result page you'd like to have
-    /// - Parameter state: The city's state
-    /// - Parameter stateCode: The city's state code
-    /// - Parameter completion: A callback that returns the requested list of venues as an `FMVenuesResult`
+    /// Searches for venues given a set of parameters.
+    ///
+    /// - Parameters:
+    ///   - cityId: A city ID to search by, or `nil` for no specific city.
+    ///   - cityName: A city name to search by, or `nil` for no specific city.
+    ///   - country: A country name to search by, or `nil` for no specific country.
+    ///   - name: A venue name to search by, or `nil` for no specific venue.
+    ///   - pageNumber: The number of the result page. Default value is 1.
+    ///   - state: A state to search by, or `nil` for no specific state.
+    ///   - stateCode: A state code to search by, or `nil` for no specific state code.
+    /// - Returns: A `VenueResults` instance representing the results of the venue search.
+    /// 
     func searchVenues(cityId: String? = nil,
                       cityName: String? = nil,
                       country: String? = nil,

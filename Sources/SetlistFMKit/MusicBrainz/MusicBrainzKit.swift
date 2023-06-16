@@ -1,27 +1,49 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
+/*
+See the LICENSE.txt file for this sample’s licensing information.
+
+Abstract:
+A client to handle network communications with the MusicBrainz API.
+*/
 
 import Foundation
 
-public class MusicBrainzClient {
+/// This class prepares and sends requests to the MusicBrainz API, and handles responses.
+public class MusicBrainzClient: Client {
+
+    /// The base URL for the MusicBrainz API.
     public let baseURL: String = "https://musicbrainz.org/ws/2/"
-    public let session = URLSession.shared
-    public let appName: String
-    public let version: String
-    public let contact: String
     
+    /// The shared URL session object.
+    public let session = URLSession.shared
+    
+    /// The application name to be used in requests' User-Agent header.
+    public let appName: String
+    
+    /// The application version to be used in requests' User-Agent header.
+    public let version: String
+    
+    /// The contact information to be used in requests' User-Agent header.
+    public let contact: String
+
+    /// Creates a new `MusicBrainzClient`.
+    ///
+    /// - Parameters:
+    ///   - appName: The application name to be used in requests' User-Agent header.
+    ///   - version: The application version to be used in requests' User-Agent header.
+    ///   - contact: The contact information to be used in requests' User-Agent header.
     public init(appName: String, version: String, contact: String) {
         self.appName = appName
         self.version = version
         self.contact = contact
     }
-    
-    public func urlRequest(endpoint: String) throws -> URLRequest {
-        guard let url = URL(string: baseURL + endpoint) else {
-            print(baseURL + endpoint)
-            throw NSError(domain: "Invalid URL", code: 0, userInfo: nil)
-        }
-        
+
+    /// Prepares a new `URLRequest` for a given URL.
+    ///
+    /// This function prepares the HTTP method, headers, and body for the request.
+    ///
+    /// - Parameter url: The `URL` to prepare a request for.
+    /// - Returns: A `URLRequest` prepared for the given `URL`.
+    func makeRequest(for url: URL) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("\(appName)/\(version) ( \(contact) )", forHTTPHeaderField: "User-Agent")
@@ -29,58 +51,5 @@ public class MusicBrainzClient {
         
         return request
     }
-    
-    public func request<T: Decodable>(endpoint: String) async throws -> T {
-        var request = try urlRequest(endpoint: endpoint)
-        
-        let (data, response) = try await session.data(for: request)
-        
-        guard let requestResponse = response as? HTTPURLResponse,
-              (200 ..< 300) ~= requestResponse.statusCode else {
-            printJSON(data)
-            let statusCode = (response as? HTTPURLResponse)?.statusCode
-            print(response)
-            throw Error.statusCode(statusCode ?? -1, request.url?.absoluteString ?? endpoint)
-        }
-        printJSON(data)
-
-        do {
-            return try JSONDecoder().decode(T.self, from: data)
-        } catch {
-            print(error.localizedDescription)
-            throw Error.decode(T.self)
-        }
-    }
-    
-    public func printJSON(_ data: Data) {
-        if let nsString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) {
-            Swift.print(nsString)
-        } else {
-            print("Data doesn't represent a valid JSON structure.")
-        }
-    }
-    
-    public enum Error: Swift.Error, LocalizedError{
-        case encode(Encodable.Type)
-        case decode(Decodable.Type)
-        case statusCode(Int, String)
-        case message(String)
-        case endpoint(String)
-    }
 }
 
-public extension MusicBrainzClient {
-    
-    func search(artist: String) async throws -> [MBArtist] {
-        let escapedString = artist.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? artist
-        let endpoint = "artist?query=artist:\(escapedString)&fmt=json"
-        let result:MBArtistResults = try await request(endpoint: endpoint)
-        return result.artists
-
-    }
-    
-}
-
-public struct MBArtistResults: Decodable {
-    public let artists: [MBArtist]
-}

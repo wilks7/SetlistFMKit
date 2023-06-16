@@ -1,4 +1,9 @@
+/*
+See the LICENSE.txt file for this sample’s licensing information.
 
+Abstract:
+Venue Endpoints for the SetlistFM API.
+*/
 public extension SetlistFMClient {
     
     private var venueEndpoint: String { "venue/" }

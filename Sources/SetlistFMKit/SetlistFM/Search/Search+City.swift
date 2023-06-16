@@ -1,13 +1,23 @@
 
+/*
+See the LICENSE.txt file for this sample’s licensing information.
+
+Abstract:
+Search City Endpoints for the SetlistFM API.
+*/
+
 public extension SetlistFMClient {
     
-    /// Search for a city. **You must specify one parameter other than** `pageNumber` **for the call to succeed**
-    /// - Parameter country: The city's country. Specify the country code rather than the full name of the country, otherwise a 404 will occur.
-    /// - Parameter name: Name of the city
-    /// - Parameter pageNumber: The number of the result page you'd like to have
-    /// - Parameter state: State the city lies in. Unlike `country`, you can specify the full name of the state here
-    /// - Parameter stateCode: State code the city lies in
-    /// - Parameter complete: A callback that returns the requested list of cities as an `FMCitiesResult`
+    /// Searches for cities given a set of parameters.
+    ///
+    /// - Parameters:
+    ///   - country: The name of the country to search for cities in, or `nil` for no specific country.
+    ///   - name: The name of the city to search for, or `nil` for no specific city.
+    ///   - pageNumber: The number of the result page. Default value is 1.
+    ///   - state: The name of the state to search for cities in, or `nil` for no specific state.
+    ///   - stateCode: The state code to search for cities in, or `nil` for no specific state code.
+    /// - Returns: A `CitiesResults` instance representing the results of the city search.
+
     func searchCities(country: String? = nil,
                       name: String? = nil,
                       pageNumber: Int = 1,
@@ -27,7 +37,8 @@ public extension SetlistFMClient {
     
     
     /// Get a complete list of all supported countries
-    /// - Parameter completion: A callback that returns the requested list of countries as an `FMCountriesResult`
+    ///
+    /// - Returns: A `FMCountriesResult` instance representing the results of the country search.
     func searchCountries() async throws -> FMCountriesResult {
         return try await self.fetch(endpoint: "search/countries")
     }

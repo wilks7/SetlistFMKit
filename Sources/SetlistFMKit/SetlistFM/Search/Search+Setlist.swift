@@ -1,32 +1,33 @@
-//
-//  File.swift
-//  
-//
-//  Created by Michael on 6/14/23.
-//
 
-import Foundation
+/*
+See the LICENSE.txt file for this sample’s licensing information.
+
+Abstract:
+Search Setlists Endpoints for the SetlistFM API.
+*/
 
 public extension SetlistFMClient {
-    /// Search for setlists. **You must specify one parameter other than** `pageNumber` **for the call to succeed**
-    /// - Parameter artistMbid: The artist's Musicbrainz Identifier (mbid)
-    /// - Parameter artistName: The artist's name
-    /// - Parameter artistTmid: The artist's Ticketmaster Identifier (tmid)
-    /// - Parameter cityId: The city's geoId
-    /// - Parameter cityName: The name of the city
-    /// - Parameter countryCode: The country code
-    /// - Parameter date: The date of the event (format dd-MM-yyyy)
-    /// - Parameter lastFM: The event's Last.fm Event ID (deprecated)
-    /// - Parameter lastUpdated: The date and time (UTC) when this setlist was last updated (format yyyyMMddHHmmss) -
-    /// either edited or reverted. Search will return setlists that were updated on or after this date
-    /// - Parameter pageNumber: The number of the result page
-    /// - Parameter state: The state
-    /// - Parameter stateCode: The state code
-    /// - Parameter tourName: The name of the tour
-    /// - Parameter venueId: The venue id
-    /// - Parameter venueName: The name of the venue
-    /// - Parameter year: The year of the event
-    /// - Parameter completion: A callback that returns the requested list of setlists as an `FMSetlistsResult`
+    /// Searches for setlists given a wide range of parameters.
+    ///
+    /// - Parameters:
+    ///   - artistMbid: A MusicBrainz ID to search by, or `nil` for no specific ID.
+    ///   - artistName: An artist's name to search by, or `nil` for no specific artist.
+    ///   - artistTmid: A Ticketmaster ID to search by, or `nil` for no specific ID.
+    ///   - cityId: A city ID to search by, or `nil` for no specific city.
+    ///   - cityName: A city name to search by, or `nil` for no specific city.
+    ///   - countryCode: A country code to search by, or `nil` for no specific country.
+    ///   - date: A date to search by, or `nil` for no specific date.
+    ///   - lastFM: A LastFM parameter to search by, or `nil` for no specific LastFM parameter.
+    ///   - lastUpdated: A last updated parameter to search by, or `nil` for no specific update time.
+    ///   - pageNumber: The number of the result page. Default value is 1.
+    ///   - state: A state to search by, or `nil` for no specific state.
+    ///   - stateCode: A state code to search by, or `nil` for no specific state code.
+    ///   - tourName: A tour name to search by, or `nil` for no specific tour.
+    ///   - venueId: A venue ID to search by, or `nil` for no specific venue.
+    ///   - venueName: A venue name to search by, or `nil` for no specific venue.
+    ///   - year: A year to search by, or `nil` for no specific year.
+    /// - Returns: An `FMSetlistsResult` instance representing the results of the setlist search.
+
     func searchSetlists(artistMbid: String? = nil,
                         artistName: String? = nil,
                         artistTmid: Int? = nil,
@@ -64,7 +65,7 @@ public extension SetlistFMClient {
             year: year ?? ""
         )
         
-        return try await self.search(requestModel, endpoint: endpoint)
+        return try await self.fetch(requestModel, endpoint: endpoint)
     }
 
 }

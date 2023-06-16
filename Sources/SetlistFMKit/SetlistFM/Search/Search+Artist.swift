@@ -1,24 +1,41 @@
 
+/*
+See the LICENSE.txt file for this sample’s licensing information.
+
+Abstract:
+Search Artist Endpoints for the SetlistFM API.
+*/
+
 public extension SetlistFMClient {
     
-    func searchArtists(artistMbid: String? = nil,
-                       artistName: String? = nil,
-                       artistTmid: Int? = nil,
+    /// Searches for artists given a set of parameters.
+    ///
+    /// - Parameters:
+    ///   - mbid: A MusicBrainz ID to search by, or `nil` for no specific ID.
+    ///   - name: A name to search by, or `nil` for no specific name.
+    ///   - tmid: A Ticketmaster ID to search by, or `nil` for no specific ID.
+    ///   - pageNumber: The number of the result page. Default value is 1.
+    ///   - sortType: A `SortType` value that determines the order of the results. Default value is `.relevance`.
+    /// - Returns: An `ArtistResults` instance representing the results of the artist search.
+    func searchArtists(mbid: String? = nil,
+                       name: String? = nil,
+                       tmid: Int? = nil,
                        pageNumber: Int = 1,
                        sortedBy sortType: SortType = .relevance
     ) async throws -> ArtistResults {
         let endpoint = "search/artists"
         
         let requestModel = SearchArtist(
-            artistMbid: artistMbid ?? "",
-            artistName: artistName ?? "",
-            artistTmid: artistTmid.flatMap { "\($0)" } ?? "",
+            artistMbid: mbid ?? "",
+            artistName: name ?? "",
+            artistTmid: tmid.flatMap { "\($0)" } ?? "",
             p: pageNumber,
             sort: sortType.rawValue
         )
         
         return try await self.fetch(requestModel, endpoint: endpoint)
     }
+
 }
 
 

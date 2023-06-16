@@ -1,14 +1,13 @@
-//
-//  File.swift
-//  
-//
-//  Created by Michael on 6/14/23.
-//
 
-import Foundation
+/*
+See the LICENSE.txt file for this sample’s licensing information.
 
+Abstract:
+A utility type for SetlistFM API results.
+*/
+
+/// A type that is returned from SetlistFM API query.
 public protocol FMResult: Decodable, Equatable {
-//    associatedtype Results: Decodable
     
     /// The total amount of items matching the query
     var total: Int {get}
@@ -23,4 +22,12 @@ public protocol FMResult: Decodable, Equatable {
 
 protocol FMRequest: Encodable {
     var p: Int { get }
+}
+
+public enum SortType: String {
+    /// Default sorting type
+    case sortName
+    
+    /// Specifies sorting of the results by relevance
+    case relevance
 }

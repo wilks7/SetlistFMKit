@@ -7,9 +7,7 @@ protocol Client {
     var baseURL: String {get}
 
 }
-
 extension Client {
-    var session: URLSession { URLSession.shared }
     
     func fetch<T:Decodable>(endpoint: String) async throws -> T {
         guard let url = URL(string: baseURL + endpoint) else {
@@ -23,6 +21,10 @@ extension Client {
         let url = try createURL(with: parameters, endpoint: endpoint)
         return try await request(url: url)
     }
+}
+
+extension Client {
+    var session: URLSession { URLSession.shared }
     
     private func createURL<T:Encodable>(with object: T, endpoint: String) throws -> URL {
         
@@ -45,7 +47,7 @@ extension Client {
         
     }
 
-    func request<T: Decodable>(url: URL) async throws -> T {
+    private func request<T: Decodable>(url: URL) async throws -> T {
         print("Requesting \(url.absoluteString)")
         
         let request = makeRequest(for: url)

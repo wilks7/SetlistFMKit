@@ -1,4 +1,11 @@
 
+/*
+See the LICENSE.txt file for this sample’s licensing information.
+
+Abstract:
+A Venue fetched from the SetlistFM API.
+*/
+
 /// The model for a Venue object from the Setlist.fm API
 public struct FMVenue: Decodable, Equatable {
     /// The city in which the venue is located

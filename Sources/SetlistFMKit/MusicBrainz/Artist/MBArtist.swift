@@ -15,25 +15,25 @@ public struct MBArtist: Decodable, Identifiable {
     public let disambiguation: String?
     public let gender: String?
     public let country: String?
-//    public let area: Area?
-//    public let beginArea: Area?
-//    public let endArea: Area?
+    public let area: Area?
+    public let beginArea: Area?
+    public let endArea: Area?
     public let lifeSpan: LifeSpan?
-//    public let aliases: [Alias]
+    public let aliases: [Alias]?
     
     public enum CodingKeys: String, CodingKey {
-        case id, name, type, disambiguation, gender, country//, area
+        case id, name, type, disambiguation, gender, country, area
         case sortName = "sort-name"
-//        case beginArea = "begin-area" // map JSON's "begin-area" to "beginArea"
-//        case endArea = "end-area"     // map JSON's "end-area" to "endArea"
+        case beginArea = "begin-area" // map JSON's "begin-area" to "beginArea"
+        case endArea = "end-area"     // map JSON's "end-area" to "endArea"
         case lifeSpan = "life-span"   // map JSON's "life-span" to "lifeSpan"
-//        case aliases
+        case aliases
     }
     
     public struct Area: Decodable, Equatable {
         public let id: String
-        public let name: String
-        public let sortName: String
+        public let name: String?
+        public let sortName: String?
         public enum CodingKeys: String, CodingKey {
             case id, name
             case sortName = "sort-name"  // map JSON's "sort-name" to "sortName"
@@ -47,7 +47,7 @@ public struct MBArtist: Decodable, Identifiable {
     }
     
     public struct Alias: Decodable {
-        public let name: String
+        public let name: String?
         public let locale: String?
     }
 }
