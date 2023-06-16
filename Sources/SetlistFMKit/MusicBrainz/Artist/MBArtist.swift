@@ -42,8 +42,8 @@ public struct MBArtist: Decodable, Identifiable {
     
     public struct LifeSpan: Decodable {
         public let ended: Bool?
-        @DateFormatted<MBArtistDateStrategy> var begin: Date?
-        @DateFormatted<MBArtistDateStrategy> var end: Date?
+        @DateFormatted<MBArtistDateStrategy> public var begin: Date?
+        @DateFormatted<MBArtistDateStrategy> public var end: Date?
 
 //        public let begin: String?
 //        public let end: String?
@@ -55,26 +55,26 @@ public struct MBArtist: Decodable, Identifiable {
     }
 }
 
-struct MBArtistDateStrategy: DateValueStrategy {
-    private static var formatter: DateFormatter = {
+public struct MBArtistDateStrategy: DateValueStrategy {
+    public static var formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM"
         return formatter
     }()
     
-    private static var dayFormatter: DateFormatter = {
+    public static var dayFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
     
-    private static var yearFormatter: DateFormatter = {
+    public static var yearFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy"
         return formatter
     }()
     
-    static func decode(_ value: String?) throws -> Date? {
+    public static func decode(_ value: String?) throws -> Date? {
         guard let value else {return nil}
         if let date = dayFormatter.date(from: value) {
             return date
@@ -88,7 +88,7 @@ struct MBArtistDateStrategy: DateValueStrategy {
         }
     }
     
-    static func encode(_ date: Date?) -> String? {
+    public static func encode(_ date: Date?) -> String? {
         guard let date else {return nil}
         return formatter.string(from: date)
     }

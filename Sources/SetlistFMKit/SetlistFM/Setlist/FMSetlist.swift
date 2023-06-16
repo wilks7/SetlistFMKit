@@ -37,7 +37,7 @@ public struct FMSetlist: Decodable {
     public let lastFMEventId: Int?
     
     /// Date of the concert in the format "dd-MM-yyyy"
-   @DateFormatted<FMSetlistDateStrategy> var eventDate: Date
+   @DateFormatted<FMSetlistDateStrategy> public var eventDate: Date
     
     /// Date, time and time zone of the last update to this setlist in the format "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
     public let lastUpdated: String?
@@ -50,15 +50,15 @@ public struct FMSets: Decodable, Equatable {
 }
 
 
-struct FMSetlistDateStrategy: DateValueStrategy {
+public struct FMSetlistDateStrategy: DateValueStrategy {
 
-    private static var formatter: DateFormatter = {
+    public static var formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd-MM-yyyy"
         return formatter
     }()
     
-    static func decode(_ value: String) throws -> Date {
+    public static func decode(_ value: String) throws -> Date {
         if let date = formatter.date(from: value) {
             return date
         } else {
@@ -66,7 +66,7 @@ struct FMSetlistDateStrategy: DateValueStrategy {
         }
     }
     
-    static func encode(_ date: Date) -> String {
+    public static func encode(_ date: Date) -> String {
         formatter.string(from: date)
     }
 }
