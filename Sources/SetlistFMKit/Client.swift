@@ -66,8 +66,6 @@ extension Client {
     }
 
     private func request<T: Decodable>(url: URL) async throws -> T {
-        logger.debug("Requesting \(url.absoluteString)")
-
         let request = makeRequest(for: url)
         
         let (data, response) = try await session.data(for: request)
@@ -79,10 +77,10 @@ extension Client {
             Swift.print( jsonString(data) )
             throw ClientError.statusCode(statusCode ?? -1, url.absoluteString)
         }
-        logger.debug("Received Response for \(String(describing: T.self))")
-
         do {
-            return try JSONDecoder().decode(T.self, from: data)
+            let object: T = try JSONDecoder().decode(T.self, from: data)
+            logger.debug("Reponse: \(String(describing: object.self))")
+            return object
         } catch {
             logger.error("Decode error for \(String(describing: T.self))")
             Swift.print( jsonString(data) )
