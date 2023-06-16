@@ -23,6 +23,8 @@ final class MusicBrainzTests: XCTestCase {
         do {
             let artist = try await client.getArtist(mbid: phishID) // Insert a valid MBID
             XCTAssertNotNil(artist, "Artist data should not be nil")
+            XCTAssertNotNil(artist.lifeSpan?.begin, "Artist data should not be nil")
+
         } catch {
             XCTFail("Failed to fetch artist: \(error)")
         }

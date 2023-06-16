@@ -122,31 +122,6 @@ struct SearchSetlists: FMRequest {
     
     /// The year of the event
     let year: String
-    
-    var endpoint: String {
-        return "search/setlists"
-    }
-    
-    var queryParameters: [String : String]? {
-        return [
-            "artistMbid": artistMbid,
-            "artistName": artistName,
-            "artistTmid": artistTmid,
-            "cityId": cityId,
-            "cityName": cityName,
-            "countryCode": countryCode,
-            "date": date,
-            "lastFM": lastFM,
-            "lastUpdated": lastUpdated,
-            "p": "\(p)",
-            "state": state,
-            "stateCode": stateCode,
-            "tourName": tourName,
-            "venueId": venueId,
-            "venueName": venueName,
-            "year": year
-        ]
-    }
 }
 
 

@@ -42,13 +42,55 @@ public struct MBArtist: Decodable, Identifiable {
     
     public struct LifeSpan: Decodable {
         public let ended: Bool?
-        public let begin: String?
-        public let end: String?
+        @DateFormatted<MBArtistDateStrategy> var begin: Date?
+        @DateFormatted<MBArtistDateStrategy> var end: Date?
+
+//        public let begin: String?
+//        public let end: String?
     }
     
     public struct Alias: Decodable {
         public let name: String?
         public let locale: String?
+    }
+}
+
+struct MBArtistDateStrategy: DateValueStrategy {
+    private static var formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM"
+        return formatter
+    }()
+    
+    private static var dayFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
+    private static var yearFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy"
+        return formatter
+    }()
+    
+    static func decode(_ value: String?) throws -> Date? {
+        guard let value else {return nil}
+        if let date = dayFormatter.date(from: value) {
+            return date
+        } else if let date = formatter.date(from: value) {
+            return date
+        } else if let date = yearFormatter.date(from: value) {
+            return date
+        }
+        else {
+            return nil
+        }
+    }
+    
+    static func encode(_ date: Date?) -> String? {
+        guard let date else {return nil}
+        return formatter.string(from: date)
     }
 }
 

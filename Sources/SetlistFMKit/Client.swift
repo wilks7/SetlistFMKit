@@ -77,9 +77,10 @@ extension Client {
             Swift.print( jsonString(data) )
             throw ClientError.statusCode(statusCode ?? -1, url.absoluteString)
         }
+        Swift.print( jsonString(data) )
         do {
             let object: T = try JSONDecoder().decode(T.self, from: data)
-            logger.debug("Reponse: \(String(describing: object.self))")
+            logger.debug("Fetched")
             return object
         } catch {
             logger.error("Decode error for \(String(describing: T.self))")

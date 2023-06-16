@@ -7,7 +7,7 @@ A utility type for SetlistFM API results.
 */
 
 /// A type that is returned from SetlistFM API query.
-public protocol FMResult: Decodable, Equatable {
+public protocol FMResult: Decodable {
     
     /// The total amount of items matching the query
     var total: Int {get}

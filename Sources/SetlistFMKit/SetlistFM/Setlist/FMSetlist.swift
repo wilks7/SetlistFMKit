@@ -6,9 +6,10 @@ Abstract:
 A Setlist fetched from the SetlistFM API.
 */
 
+import Foundation
 
 /// The model for a Setlist object from the Setlist.fm API
-public struct FMSetlist: Decodable, Equatable {
+public struct FMSetlist: Decodable {
     
     public let artist: FMArtist?
     
@@ -36,7 +37,7 @@ public struct FMSetlist: Decodable, Equatable {
     public let lastFMEventId: Int?
     
     /// Date of the concert in the format "dd-MM-yyyy"
-    public let eventDate: String?
+   @DateFormatted<FMSetlistDateStrategy> var eventDate: Date
     
     /// Date, time and time zone of the last update to this setlist in the format "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
     public let lastUpdated: String?
@@ -49,6 +50,23 @@ public struct FMSets: Decodable, Equatable {
 }
 
 
+struct FMSetlistDateStrategy: DateValueStrategy {
 
-
-
+    private static var formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy"
+        return formatter
+    }()
+    
+    static func decode(_ value: String) throws -> Date {
+        if let date = formatter.date(from: value) {
+            return date
+        } else {
+            throw DateStrategyError.decode
+        }
+    }
+    
+    static func encode(_ date: Date) -> String {
+        formatter.string(from: date)
+    }
+}
