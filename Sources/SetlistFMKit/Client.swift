@@ -74,26 +74,26 @@ extension Client {
               (200 ..< 300) ~= requestResponse.statusCode else {
             let statusCode = (response as? HTTPURLResponse)?.statusCode
             logger.error("Status Code: \(statusCode ?? -1) for \(url.absoluteString)")
-            Swift.print( jsonString(data) )
+            json(print: data)
             throw ClientError.statusCode(statusCode ?? -1, url.absoluteString)
         }
-        Swift.print( jsonString(data) )
+        json(print: data)
         do {
             let object: T = try JSONDecoder().decode(T.self, from: data)
             logger.debug("Fetched")
             return object
         } catch {
             logger.error("Decode error for \(String(describing: T.self))")
-            Swift.print( jsonString(data) )
+            json(print: data)
             throw ClientError.decode(T.self)
         }
     }
     
-    private func jsonString(_ data: Data) -> NSString {
+    private func json(print data: Data) {
         if let nsString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) {
-            return nsString
+            Swift.print(nsString)
         } else {
-            return "Data doesn't represent a valid JSON structure."
+            Swift.print("Data doesn't represent a valid JSON structure.")
         }
     }
 }

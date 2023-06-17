@@ -1,9 +1,4 @@
-//
-//  File.swift
-//  
-//
-//  Created by Michael on 6/15/23.
-//
+
 
 import Foundation
 
@@ -22,75 +17,18 @@ public struct MBArtist: Decodable, Identifiable {
     public let aliases: [Alias]?
     
     public enum CodingKeys: String, CodingKey {
-        case id, name, type, disambiguation, gender, country, area
+        case id, name, type, disambiguation, gender, country
+        case area
         case sortName = "sort-name"
-        case beginArea = "begin-area" // map JSON's "begin-area" to "beginArea"
-        case endArea = "end-area"     // map JSON's "end-area" to "endArea"
-        case lifeSpan = "life-span"   // map JSON's "life-span" to "lifeSpan"
+        case beginArea = "begin-area"
+        case endArea = "end-area"
+        case lifeSpan = "life-span"
         case aliases
-    }
-    
-    public struct Area: Decodable, Equatable {
-        public let id: String
-        public let name: String?
-        public let sortName: String?
-        public enum CodingKeys: String, CodingKey {
-            case id, name
-            case sortName = "sort-name"  // map JSON's "sort-name" to "sortName"
-        }
-    }
-    
-    public struct LifeSpan: Decodable {
-        public let ended: Bool?
-        @DateFormatted<MBArtistDateStrategy> public var begin: Date?
-        @DateFormatted<MBArtistDateStrategy> public var end: Date?
-
-//        public let begin: String?
-//        public let end: String?
     }
     
     public struct Alias: Decodable {
         public let name: String?
         public let locale: String?
-    }
-}
-
-public struct MBArtistDateStrategy: DateValueStrategy {
-    public static var formatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM"
-        return formatter
-    }()
-    
-    public static var dayFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter
-    }()
-    
-    public static var yearFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy"
-        return formatter
-    }()
-    
-    public static func decode(_ value: String?) throws -> Date? {
-        guard let value else {return nil}
-        if let date = dayFormatter.date(from: value) {
-            return date
-        } else if let date = formatter.date(from: value) {
-            return date
-        } else if let date = yearFormatter.date(from: value) {
-            return date
-        }
-        else {
-            return nil
-        }
-    }
-    
-    public static func encode(_ date: Date?) -> String? {
-        guard let date else {return nil}
-        return formatter.string(from: date)
     }
 }
 
