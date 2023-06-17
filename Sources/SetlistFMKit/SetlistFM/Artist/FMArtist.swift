@@ -26,3 +26,21 @@ public struct FMArtist: Codable, Equatable {
     /// The attribution url
     public var url: String = ""
 }
+
+import Foundation
+public extension FMArtist {
+    static var Phish: FMArtist {
+        let json = """
+        {
+          "mbid": "e01646f2-2a04-450d-8bf2-0d993082e058",
+          "name": "Phish",
+          "sortName": "Phish",
+          "disambiguation": "",
+          "url": "https://www.setlist.fm/setlists/phish-13d6ad51.html"
+        }
+        """.data(using: .utf8)!
+
+        let decoder = JSONDecoder()
+        return try! decoder.decode(FMArtist.self, from: json)
+    }
+}

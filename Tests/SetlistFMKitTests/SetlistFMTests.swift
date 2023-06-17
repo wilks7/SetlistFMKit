@@ -4,7 +4,7 @@ import XCTest
 final class SetlistFMTests: XCTestCase {
     var client: SetlistFMClient!
     let beatlesID = "b10bbbfc-cf9e-42e0-be17-e2c3e1d2600d"
-    let phishID = "e01646f2-2a04-450d-8bf2-0d993082e058"
+    let phishID = FMArtist.Phish.mbid
     
     override func setUp() {
         super.setUp()
