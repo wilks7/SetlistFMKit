@@ -11,7 +11,7 @@ import Foundation
 /// The model for a Setlist object from the Setlist.fm API
 public struct FMSetlist: Decodable {
     
-    public let artist: FMArtist?
+    public let artist: FMArtist
     
     public let venue: FMVenue?
     
