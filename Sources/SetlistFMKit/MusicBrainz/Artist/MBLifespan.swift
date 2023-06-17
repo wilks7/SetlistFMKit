@@ -16,32 +16,42 @@ public struct LifeSpan: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.ended = try container.decodeIfPresent(Bool.self, forKey: .ended)
         
-        if let beginString = try? container.decode(String.self, forKey: .begin),
+        if let beginString = try? container.decode(String?.self, forKey: .begin),
             let date = decode(beginString) {
             self.begin = date
         } else {
             self.begin = nil
         }
         
-        if let endString = try? container.decode(String.self, forKey: .end),
+        if let endString = try? container.decode(String?.self, forKey: .end),
             let date = decode(endString) {
-            self.begin = date
+            self.end = date
         } else {
-            self.begin = nil
+            self.end = nil
         }
 
     }
     
     private func decode(_ string: String) -> Date? {
         let formatter = DateFormatter()
-//        formatter.dateFormat = Self.day
-        return formatter.date(from: string)
-        
+//        formatter.dateFormat = "yyyy"
+//        return formatter.date(from: string)
+        for style in DateFormats.allCases {
+            formatter.dateFormat = style.rawValue
+            if let date = formatter.date(from: string) {
+                return date
+            }
+        }
+        return nil
+    }
+    enum DateFormats: String, CaseIterable, Identifiable {
+        var id: String {self.rawValue}
+        case day = "yyyy-MM-dd"
+        case month = "yyyy-MM"
+        case year = "yyyy"
     }
     
-    static let day = "yyyy-MM-dd"
-    static let month = "yyyy-MM"
-    static let year = "yyyy"
+
 
 
 
