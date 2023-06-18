@@ -8,12 +8,13 @@ Abstract:
 
 import Foundation
 import OSLog
+import DrillURL
 
 /// This class prepares and sends requests to the SetlistFM API, and handles responses.
-public class SetlistFMClient: Client {
+public class SetlistFMClient: DrillURL.DrillClient {
 
     /// The base URL for the SetlistFM API.
-    let baseURL: String = "https://api.setlist.fm/rest/1.0/"
+    public let baseURL: String = "https://api.setlist.fm/rest/1.0/"
 
     /// The API key to use for authentication.
     private let apiKey: String
@@ -42,7 +43,7 @@ public class SetlistFMClient: Client {
     ///
     /// - Parameter url: The `URL` to prepare a request for.
     /// - Returns: A `URLRequest` prepared for the given `URL`.
-    func makeRequest(for url: URL) -> URLRequest {
+    public func makeRequest(for url: URL) -> URLRequest {
         var request = URLRequest(url: url)
         
         request.httpMethod = "GET"
