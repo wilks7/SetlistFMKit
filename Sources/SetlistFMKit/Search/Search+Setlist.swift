@@ -124,9 +124,9 @@ struct SearchSetlists: FMRequest {
     let year: String
 }
 
-
+import DrillURL
 /// The response model for a Setlist.fm API request containing multiple setlists
-public struct FMSetlistsResult: FMResult {
+public struct FMSetlistsResult: FMResult, DecodableDate {
     /// Result list of setlists
     public let setlist: [FMSetlist]
     
@@ -138,7 +138,7 @@ public struct FMSetlistsResult: FMResult {
     
     /// The amount of items you get per page
     public let itemsPerPage: Int
+    
+    static public var dateFormat: String { FMSetlist.dateFormat }
+
 }
-
-
-
