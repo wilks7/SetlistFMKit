@@ -18,13 +18,13 @@ public struct FMArtist: Codable, Equatable {
 //    public let tmid: Int?
     
     /// The artist's sort name, e.g. "Beatles, The" or "Springsteen, Bruce"
-    public var sortName: String = ""
+    public var sortName: String?
     
     /// Disambiguation to distinguish between artists with same names
-    public var disambiguation: String = ""
+    public var disambiguation: String?
     
     /// The attribution url
-    public var url: String = ""
+    public var url: String?
 }
 
 import Foundation
