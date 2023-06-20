@@ -43,8 +43,12 @@ extension SetlistFMKitTests {
 
     
     func testSearchSetlist() async throws {
-        let result = try await client.searchSetlists(cityName: "new york")
+        let result = try await client.searchSetlists(artistMbid: phishID, cityName: "new york")
         let setlists = result.setlist
+        for i in setlists {
+            let venue = i.venue?.name ?? ""
+            print(venue + i.eventDate.formatted())
+        }
         if result.total < result.itemsPerPage {
             XCTAssertEqual(result.total, setlists.count)
         } else {
@@ -65,6 +69,9 @@ extension SetlistFMKitTests {
     func testSearchVenue() async throws {
         let result = try await client.searchVenues(name: "madison square garden")
         let venues = result.venue
+        for i in venues {
+            print(i.name)
+        }
         if result.total < result.itemsPerPage {
             XCTAssertEqual(result.total, venues.count)
         } else {
