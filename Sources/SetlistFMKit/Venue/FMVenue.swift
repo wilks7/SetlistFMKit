@@ -9,7 +9,7 @@ A Venue fetched from the SetlistFM API.
 /// The model for a Venue object from the Setlist.fm API
 public struct FMVenue: Decodable, Equatable {
     /// The city in which the venue is located
-    public let city: FMCity?
+    public let city: FMCity
     
     /// The attribution url
     public let url: String?

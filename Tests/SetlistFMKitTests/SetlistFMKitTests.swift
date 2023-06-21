@@ -80,7 +80,7 @@ extension SetlistFMKitTests {
     }
     
     func testSearchCity() async throws {
-        let result = try await client.searchCities(name: "new york")
+        let result = try await client.searchCities(name: "new")
         let cities = result.cities
         if result.total < result.itemsPerPage {
             XCTAssertEqual(result.total, cities.count)

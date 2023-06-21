@@ -6,7 +6,7 @@ public struct FMCity: Decodable, Equatable {
     public let id: String?
     
     /// The city's name, depending on the language valid values are e.g. "Müchen" or Munich
-    public let name: String?
+    public let name: String
     
     /**
      The code of the city's state.
@@ -28,28 +28,28 @@ public struct FMCity: Decodable, Equatable {
     public let state: String?
     
     /// The city's coordinates. Usually the coordinates of the city centre are used.
-    public let coords: FMCoords?
+    public let coords: FMCoords
     
     /// The city's country
-    public let country: FMCountry?
+    public let country: FMCountry
 }
 
 /// The model for a Coords object from the Setlist.fm API
 public struct FMCoords: Decodable, Equatable {
     /// The latitude part of the coordinates
-    public let lat: Double?
+    public let lat: Double
     
     /// The longitude part of the coordinates
-    public let long: Double?
+    public let long: Double
 }
 
 
 /// The model for a Country object from the Setlist.fm API
 public struct FMCountry: Decodable, Equatable {
     /// The country's [ISO code](http://www.iso.org/iso/english_country_names_and_code_elements). E.g. "ie" for Ireland
-    public let code: String?
+    public let code: String
     
     /// The country's name
     /// Can be a localized name - e.g. "Austria" or "Österreich" for Austria if the German name was requested
-    public let name: String?
+    public let name: String
 }

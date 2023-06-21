@@ -12,7 +12,9 @@ import DrillURL
 /// The model for a Setlist object from the Setlist.fm API
 public struct FMSetlist: DecodableDate {
     static public var dateFormat: String { "dd-MM-yyyy" }
-
+    /// Unique identifier
+    public let id: String
+    
     public let artist: FMArtist
     
     public let venue: FMVenue?
@@ -28,9 +30,6 @@ public struct FMSetlist: DecodableDate {
     
     /// The attribution url to which you have to link to wherever you use data from this setlist in your application
     public let url: String?
-    
-    /// Unique identifier
-    public let id: String
     
     /// Unique identifier of the version
     public let versionId: String?
