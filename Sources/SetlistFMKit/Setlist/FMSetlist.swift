@@ -10,7 +10,7 @@ import Foundation
 import DrillURL
 
 /// The model for a Setlist object from the Setlist.fm API
-public struct FMSetlist: DecodableDate {
+public struct FMSetlist: DecodableDate, Identifiable, Equatable  {
     static public var dateFormat: String { "dd-MM-yyyy" }
     /// Unique identifier
     public let id: String
@@ -48,4 +48,10 @@ public struct FMSetlist: DecodableDate {
 public struct FMSets: Decodable, Equatable {
     /// The list of sets
     public let set: [FMSet]
+}
+
+extension FMSetlist: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }

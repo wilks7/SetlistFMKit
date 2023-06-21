@@ -43,6 +43,13 @@ public struct FMCoords: Decodable, Equatable {
     public let long: Double
 }
 
+extension FMCity: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(stateCode)
+        hasher.combine(name)
+        hasher.combine(country.code)
+    }
+}
 
 /// The model for a Country object from the Setlist.fm API
 public struct FMCountry: Decodable, Equatable {

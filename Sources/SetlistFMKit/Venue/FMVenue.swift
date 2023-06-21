@@ -26,3 +26,9 @@ public struct FMTour: Decodable, Equatable {
     /// The name of the tour.
     public let name: String
 }
+
+extension FMVenue: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}

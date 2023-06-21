@@ -7,7 +7,10 @@ An Artist fetched from the SetlistFM API.
 
 
 /// The model for an Artist object from the Setlist.fm API
-public struct FMArtist: Codable, Equatable {
+public struct FMArtist: Codable, Identifiable, Equatable {
+    
+    public var id: String {mbid}
+    
     /// Unique Musicbrainz Identifier (MBID), e.g. "b10bbbfc-cf9e-42e0-be17-e2c3e1d2600d"
     public let mbid: String
     
@@ -27,6 +30,12 @@ public struct FMArtist: Codable, Equatable {
     public var url: String?
 }
 
+extension FMArtist: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+
 import Foundation
 public extension FMArtist {
     static var Phish: FMArtist {
@@ -44,3 +53,4 @@ public extension FMArtist {
         return try! decoder.decode(FMArtist.self, from: json)
     }
 }
+
