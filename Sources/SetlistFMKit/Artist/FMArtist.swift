@@ -53,4 +53,3 @@ public extension FMArtist {
         return try! decoder.decode(FMArtist.self, from: json)
     }
 }
-

@@ -1,5 +1,4 @@
 
-
 /// The model for a City object from the Setlist.fm API
 public struct FMCity: Decodable, Equatable {
     /// Unique identifier.
