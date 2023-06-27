@@ -10,7 +10,7 @@ import Foundation
 import DrillURL
 
 /// The model for a Setlist object from the Setlist.fm API
-public struct FMSetlist: DecodableDate, Identifiable, Equatable  {
+public struct FMSetlist: DecodableDate, Codable, Identifiable, Equatable  {
     static public var dateFormat: String { "dd-MM-yyyy" }
     /// Unique identifier
     public let id: String
@@ -45,7 +45,7 @@ public struct FMSetlist: DecodableDate, Identifiable, Equatable  {
 }
 
 /// The model for the upper-level `sets` JSON object, which just holds an array of `FMSet`
-public struct FMSets: Decodable, Equatable {
+public struct FMSets: Codable, Equatable {
     /// The list of sets
     public let set: [FMSet]
 }

@@ -1,6 +1,6 @@
 
 /// The model for a City object from the Setlist.fm API
-public struct FMCity: Decodable, Equatable {
+public struct FMCity: Codable, Equatable {
     /// Unique identifier.
     public let id: String?
     
@@ -34,7 +34,7 @@ public struct FMCity: Decodable, Equatable {
 }
 
 /// The model for a Coords object from the Setlist.fm API
-public struct FMCoords: Decodable, Equatable {
+public struct FMCoords: Codable, Equatable {
     /// The latitude part of the coordinates
     public let lat: Double
     
@@ -51,7 +51,7 @@ extension FMCity: Hashable {
 }
 
 /// The model for a Country object from the Setlist.fm API
-public struct FMCountry: Decodable, Equatable {
+public struct FMCountry: Codable, Equatable {
     /// The country's [ISO code](http://www.iso.org/iso/english_country_names_and_code_elements). E.g. "ie" for Ireland
     public let code: String
     

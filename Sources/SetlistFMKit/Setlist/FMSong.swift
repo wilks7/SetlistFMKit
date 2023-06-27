@@ -8,7 +8,7 @@ A Song fetched from the SetlistFM API.
 
 
 /// The model for a Song object from the Setlist.fm API
-public struct FMSong: Decodable, Equatable {
+public struct FMSong: Codable, Equatable {
     
     public let name: String?
     

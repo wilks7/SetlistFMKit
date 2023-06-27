@@ -7,7 +7,7 @@ A Set fetched from the SetlistFM API.
 */
 
 /// The model for a Set object from the Setlist.fm API
-public struct FMSet: Decodable, Equatable {
+public struct FMSet: Codable, Equatable {
     /// The description/name of the set. E.g. "Acoustic set" or "Paul McCartney solo"
     public let name: String?
     
