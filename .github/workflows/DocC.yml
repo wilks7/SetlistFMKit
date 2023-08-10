@@ -26,6 +26,9 @@ jobs:
       uses: fwal/setup-swift@v1
       with:
         swift-version: '5.8'
+        
+    - name: Fetch all branches
+      run: git fetch --all
 
     - name: Build docs with SwiftPM
       run: |
@@ -34,7 +37,10 @@ jobs:
         --output-path ./docs \
         --disable-indexing \
         --transform-for-static-hosting \
-        --hosting-base-path SetlistFMKit
+        --hosting-base-path ${BUILD_TARGET}
+        
+    - name: Clean untracked files
+      run: git clean -fd
 
     - name: Commit and push generated documentation
       run: |
