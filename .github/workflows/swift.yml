@@ -25,7 +25,7 @@ jobs:
     - name: Set up Swift environment
       uses: fwal/setup-swift@v1
       with:
-        swift-version: '5.8'
+        swift-version: '5.9'
 
     - name: Build docs with SwiftPM
       run: |
