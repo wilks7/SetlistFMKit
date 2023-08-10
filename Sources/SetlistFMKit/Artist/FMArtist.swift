@@ -5,7 +5,6 @@ Abstract:
 An Artist fetched from the SetlistFM API.
 */
 
-
 /// The model for an Artist object from the Setlist.fm API
 public struct FMArtist: Codable, Identifiable, Equatable {
     
