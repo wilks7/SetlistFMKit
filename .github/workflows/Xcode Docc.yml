@@ -1,0 +1,60 @@
+# This workflow will build a Swift project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
+
+name: Generate DocC
+
+on:
+  push:
+    branches: [ "main" ]
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+env:
+  TARGET_NAME: SetlistFMKit
+  DERIVED_DATA_PATH: ./docbuild
+  GITHUB_PAGES_PATH: ./docs
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+      
+    - name: Generate Docc Archive
+      run: |
+        xcodebuild docbuild \
+        -scheme ${{ env.TARGET_NAME }} \
+        -derivedDataPath ${{ env.DERIVED_DATA_PATH }} \
+        -destination 'platform=iOS Simulator,OS=latest,name=iPhone 13' 
+        
+    - name: Find Docc Archive File
+      id: find-doccarchive
+      run: |
+        ARCHIVE_PATH=$(find ${{ env.DERIVED_DATA_PATH }} -type d -name '*.doccarchive')
+        echo "::set-output name=path::$ARCHIVE_PATH"
+
+    - name: Transform for Static Hosting
+      run: |
+        $(xcrun --find docc) process-archive \
+        --transform-for-static-hosting ${{ steps.find-doccarchive.outputs.path }} \
+        --output-path ${{ env.GITHUB_PAGES_PATH }} \
+        --hosting-base-path ${{ env.TARGET_NAME }}
+        
+    - name: Cleanup Derived Data
+      run: |
+        rm -rf ${{ env.DERIVED_DATA_PATH }}
+
+    - name: Commit and push generated documentation
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git switch gh-pages
+        git add ./docs
+        git commit -a -m "Generated Swift DocC"
+        git push origin gh-pages
