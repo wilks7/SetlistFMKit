@@ -25,6 +25,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+    - uses: swift-actions/setup-swift@v1
       
     - name: Generate Docc Archive
       run: |
