@@ -1,0 +1,46 @@
+name: Build Swift DocC and publish on GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+env:
+  BUILD_TARGET: SetlistFMKit
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Set up Swift environment
+      uses: fwal/setup-swift@v1
+      with:
+        swift-version: '5.8'
+
+    - name: Build docs with SwiftPM
+      run: |
+        swift package --allow-writing-to-directory ./docs \
+        generate-documentation --target ${BUILD_TARGET} \
+        --output-path ./docs \
+        --disable-indexing \
+        --transform-for-static-hosting \
+        --hosting-base-path SetlistFMKit
+
+    - name: Commit and push generated documentation
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git switch gh-pages
+        git add ./docs
+        git commit -a -m "Generated Swift DocC"
+        git push origin gh-pages
