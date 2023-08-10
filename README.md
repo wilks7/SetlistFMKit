@@ -21,7 +21,7 @@ dependencies: [
 
 ## Documentation
 
-For more detailed documentation, visit the [wiki](https://github.com/wilks7/SetlistFMKit/wiki).
+For more detailed documentation, visit the [Documentation]([https://github.com/wilks7/SetlistFMKit/wiki](https://wilks7.github.io/SetlistFMKit/documentation/setlistfmkit/)).
 
 ## Contributing
 
