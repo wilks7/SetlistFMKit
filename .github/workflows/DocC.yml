@@ -46,7 +46,19 @@ jobs:
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
+        
+        # Stash changes so that you can apply them on top of gh-pages branch
+        git stash
+
+        # Switch to gh-pages branch and apply the documentation changes
         git switch gh-pages
+        git pull origin gh-pages
+        git stash apply
+
+        # Add the changes
         git add ./docs
-        git commit -a -m "Generated Swift DocC"
+
+        # Try to commit. If no changes, this will fail, so don't stop the workflow.
+        git commit -a -m "Generated Swift DocC" || echo "No changes to commit"
+
         git push origin gh-pages
